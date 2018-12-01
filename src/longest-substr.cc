@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <set>
 
 using namespace std;
 
@@ -35,16 +36,35 @@ public:
 		return global_max;
 	}
 
+	// solution 2
+	int lengthOfLongestSubstring2(string s){
+		set<int> set1;
+		const char *str = s.c_str();
+		int size = s.size();
+		int ans = 0, i = 0, j = 0;
+		while(i < size && j < size){
+			if(set1.find(str[j]) == set1.end()){
+				set1.insert(str[j]);
+				j++;
+				ans = (j-i) > ans ? (j-i) : ans;
+			} else {
+				set1.erase(str[i]);
+				i++;
+			}
+		}
+		return ans;
+	}
+
 };
 
 int main(){
 	Solution s;
 
-	cout << s.lengthOfLongestSubstring("abcabcbb") << endl;
-	cout << s.lengthOfLongestSubstring("bbbbb") << endl;
-	cout << s.lengthOfLongestSubstring("pwwkew") << endl;
-	cout << s.lengthOfLongestSubstring(" ") << endl;
-	cout << s.lengthOfLongestSubstring("") << endl;
+	cout << s.lengthOfLongestSubstring2("abcabcbb") << endl;
+	cout << s.lengthOfLongestSubstring2("bbbbb") << endl;
+	cout << s.lengthOfLongestSubstring2("pwwkew") << endl;
+	cout << s.lengthOfLongestSubstring2(" ") << endl;
+	cout << s.lengthOfLongestSubstring2("") << endl;
 
 	return 0;
 }
