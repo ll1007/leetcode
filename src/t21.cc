@@ -21,40 +21,36 @@ class Solution {
 public:
 	void add_rest(ListNode *out, ListNode* in){
 		if (in == NULL) return;
-		out = in;
+		out->next = in;
 	}
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     	if (l1 == NULL && l2 == NULL) return NULL;	
-    	ListNode *head;
-    	if (l1 != NULL) head = new ListNode(l1->val);
-    	else if (l2 != NULL) head = new ListNode(l2->val);
-    	ListNode *ptr = head;
-    	bool begin = true;
+        if (l1 != NULL && l2 == NULL) return l1;
+        if (l1 == NULL && l2 != NULL) return l2;
+
+        int a, b;
+        ListNode *head, *ptr;
+        a = l1->val;
+        b = l2->val;
+        if ( a < b) {
+            head = new ListNode(a);
+            l1 = l1->next;
+        } else {
+            head = new ListNode(b);
+            l2 = l2->next;
+        }
+        ptr = head;
         while(l1 != NULL && l2 != NULL){
-        	int a = l1->val; 
-        	int b = l2->val;
+        	a = l1->val; 
+        	b = l2->val;
         	if ( a < b ){
-        		if (begin){
-        			begin = false;
-        			ptr->val = a;
-        		} else {
-        			ptr->next = new ListNode(a);
-        			ptr = ptr->next;
-        		}
-        		ptr->next = new ListNode(b);
+                ptr->next = new ListNode(a);
+                l1 = l1->next;
         	} else {
-        		if (begin){
-        			begin = false;
-        			ptr->val = b;
-        		} else {
-        			ptr->next = new ListNode(b);
-        			ptr = ptr->next;
-        		}
-        		ptr->next = new ListNode(a);
+                ptr->next = new ListNode(b);
+                l2 = l2->next;
         	}
-        	ptr = ptr->next;
-        	l1 = l1->next;
-        	l2 = l2->next;
+            ptr = ptr->next;
         }
         add_rest(ptr, l1);
         add_rest(ptr, l2);
@@ -84,8 +80,8 @@ int main(){
 	ptr = ptr->next;
 	ptr->next = new ListNode(4);
 
-	// print_list_node(l1);
-	// print_list_node(l2);
+	print_list_node(l1);
+	print_list_node(l2);
 	print_list_node(s.mergeTwoLists(l1, l2));
 
 	return 0;
